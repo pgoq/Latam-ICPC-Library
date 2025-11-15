@@ -3,28 +3,28 @@ export TEXINPUTS=.:content/tex/:
 export max_print_line = 1048576
 
 help:
-	@echo "This makefile builds KACTL (KTH Algorithm Competition Template Library)"
+	@echo "This makefile builds las4s e pelados ICPC library"
 	@echo ""
 	@echo "Available commands are:"
-	@echo "	make kactl		- to build KACTL"
+	@echo "	make las4s		- to build las4s"
 	@echo "	make clean		- to clean up the build process"
-	@echo "	make veryclean		- to clean up and remove kactl.pdf"
+	@echo "	make veryclean		- to clean up and remove las4s.pdf"
 	@echo "	make help		- to show this information"
 	@echo ""
 
-kactl: test-session.pdf | build
+las4s: test-session.pdf | build
 	touch aux.cpp
-	$(LATEXCMD) content/kactl.tex && $(LATEXCMD) content/kactl.tex
-	cp build/kactl.pdf kactl.pdf
+	$(LATEXCMD) content/las4s.tex && $(LATEXCMD) content/las4s.tex
+	cp build/las4s.pdf las4s.pdf
 	rm aux.cpp
 
 clean:
-	cd build && rm -f kactl.aux kactl.log kactl.tmp kactl.toc kactl.pdf kactl.ptc
+	cd build && rm -f las4s.aux las4s.log las4s.tmp las4s.toc las4s.pdf las4s.ptc
 
 veryclean: clean
-	rm -f kactl.pdf test-session.pdf
+	rm -f las4s.pdf test-session.pdf
 
-.PHONY: help fast kactl clean veryclean
+.PHONY: help fast las4s clean veryclean
 
 build:
 	mkdir -p build/
