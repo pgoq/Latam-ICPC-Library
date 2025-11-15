@@ -19,7 +19,7 @@ sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-
 make las4s
 ```
 
-for a full list of available commands
+For a full list of available commands:
 ```bash
 make help
 ```
@@ -30,5 +30,5 @@ To add new snippets or modules:
 
 - Place the .cpp file inside the appropriate directory.
 - Add its entry to the directory’s chapter.tex.
-- To add a new directory/section, edit content/las4s.tex and include the directory there.
+- To add a new directory, edit content/las4s.tex and include the directory there.
 - Every directory must contain its own chapter.tex.
