@@ -1,1 +1,0 @@
-sed -n $2','$3' p' $1 | sed '/^#w/d' | clang -E -x c++ -dD -P - | tr -d '[:space:]' | md5sum | cut -c1-6

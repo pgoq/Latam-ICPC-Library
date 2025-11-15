@@ -70,7 +70,7 @@ def find_start_comment(source, start=None):
 
 def hash_line(l, r): # faz o hash das linhas [l, r] de aux.cpp
     hsh = subprocess.run(
-        ["bash", "content/contest/ola.sh", "aux.cpp", str(l), str(r)],
+        ["bash", "content/contest/hash.sh", "aux.cpp", str(l), str(r)],
         capture_output=True,
         text=True,
         check=True
@@ -98,7 +98,10 @@ def hash_code(source):
                         lst = stk[-1]
                         stk.pop()
                 hsh = hash_line(lst+1, i+1)
+                hsh = hsh[:3]
         hashed_code += hsh + "  " + line + '\n'
+
+    return hashed_code
 
 def processwithcomments(caption, instream, outstream, listingslang):
     knowncommands = ['Author', 'Date', 'Description', 'Source', 'Time', 'Memory', 'License', 'Status', 'Usage', 'Details']
@@ -179,19 +182,10 @@ def processwithcomments(caption, instream, outstream, listingslang):
 
 
     nsource = nsource.strip()
-    hash_code(nsource)
+    nsource = hash_code(nsource)
 
     if listingslang in ['C++', 'Java']:
-        hash_script = 'hashMac'
-        p = subprocess.Popen(['sh', 'content/contest/%s.sh' % hash_script], stdin=subprocess.PIPE, stdout=subprocess.PIPE, encoding="utf-8")
-        hsh, _ = p.communicate(nsource)
-        eu = hash_line(1, len(source.split('\n')))
-
-        # hsh = hsh.split(None, 1)[0]
-        print("HASH")
-        print(hsh)
-        print(eu)
-        print("a")
+        hsh = hash_line(1, len(source.split('\n')))
         hsh = hsh + ', '
     else:
         hsh = ''

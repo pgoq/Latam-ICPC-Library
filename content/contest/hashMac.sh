@@ -1,1 +1,0 @@
-clang -E -x c++ -dD -P - | tr -d '[:space:]' | md5sum | cut -c1-6

@@ -10,56 +10,22 @@
  */
 #pragma once
 
-struct Node {
-	Node *l = 0, *r = 0;
-	int val, y, c = 1;
-	Node(int val) : val(val), y(rand()) {}
-	void recalc();
-};
+ll dp[MAX][2];
 
-int cnt(Node* n) { return n ? n->c : 0; }
-void Node::recalc() { c = cnt(l) + cnt(r) + 1; }
-
-template<class F> void each(Node* n, F f) {
-	if (n) { each(n->l, f); f(n->val); each(n->r, f); }
-}
-
-pair<Node*, Node*> split(Node* n, int k) {
-	if (!n) return {};
-	if (cnt(n->l) >= k) { // "n->val >= k" for lower_bound(k)
-		auto [L,R] = split(n->l, k);
-		n->l = R;
-		n->recalc();
-		return {L, n};
-	} else {
-		auto [L,R] = split(n->r,k - cnt(n->l) - 1); // and just "k"
-		n->r = L;
-		n->recalc();
-		return {n, R};
+void solve(int k, int l, int r, int lk, int rk) {
+	if (l > r) return;
+	int m = (l+r)/2, p = -1;
+	auto& ans = dp[m][k&1] = LINF;
+	for (int i = max(m, lk); i <= rk; i++) {
+		ll at = dp[i+1][~k&1] + query(m, i);
+		if (at < ans) ans = at, p = i;
 	}
+	solve(k, l, m-1, lk, p), solve(k, m+1, r, p, rk);
 }
 
-Node* merge(Node* l, Node* r) {
-	if (!l) return r;
-	if (!r) return l;
-	if (l->y > r->y) {
-		l->r = merge(l->r, r);
-		return l->recalc(), l;
-	} else {
-		r->l = merge(l, r->l);
-		return r->recalc(), r;
-	}
-}
-
-Node* ins(Node* t, Node* n, int pos) {
-	auto [l,r] = split(t, pos);
-	return merge(merge(l, n), r);
-}
-
-// Example application: move the range [l, r) to index k
-void move(Node*& t, int l, int r, int k) {
-	Node *a, *b, *c;
-	tie(a,b) = split(t, l); tie(b,c) = split(b, r - l);
-	if (k <= l) t = merge(ins(a, b, k), c);
-	else t = merge(a, ins(c, b, k - r));
+ll DC(int n, int k) {
+	dp[n][0] = dp[n][1] = 0;
+	for (int i = 0; i < n; i++) dp[i][0] = LINF;
+	for (int i = 1; i <= k; i++) solve(i, 0, n-i, 0, n-i);
+	return dp[0][k&1];
 }
