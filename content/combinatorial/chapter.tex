@@ -14,12 +14,13 @@
 		\[ \mkern-2mu D(n) = (n-1)(D(n-1)+D(n-2)) = n D(n-1)+(-1)^n = \left\lfloor\frac{n!}{e}\right\rceil \]
 
 	\subsection{Burnside's lemma}
-		Given a group $G$ of symmetries and a set $X$, the number of elements of $X$ \emph{up to symmetry} equals
-		 \[ {\frac {1}{|G|}}\sum _{{g\in G}}|X^{g}|, \]
-		 where $X^{g}$ are the elements fixed by $g$ ($g.x = x$).
+		 Counts the number of distinct colorings of an object under symmetry.
+		 \[ {\frac {1}{|G|}}\sum _{{g\in G}}k^{\mathrm{cyc}(g)}, \]
+		 where $G$ is the symmetry group, $k$ the number of colors, and $\mathrm{cyc}(g)$ the number of cycles induced by $g$.
 
-		 If $f(n)$ counts ``configurations'' (of some sort) of length $n$, we can ignore rotational symmetry using $G = \mathbb Z_n$ to get
-		 \[ g(n) = \frac 1 n \sum_{k=0}^{n-1}{f(\text{gcd}(n, k))} = \frac 1 n \sum_{k|n}{f(k)\phi(n/k)}. \]
+		 Example: number of ways to color a necklace with $n$ beads using $k$ colors (rotations only):
+		 \[ g(n) = \frac 1 n \sum_{i=0}^{n-1}{k^{(\text{gcd}(n, i))}} \]
+		 where rotation $i$ shifts the necklace by $i$ positions.
 
 \section{Partitions and subsets}
 	\subsection{Partition function}
@@ -83,9 +84,12 @@
 		\[ B(p^m+n)\equiv mB(n)+B(n+1) \pmod{p} \]
 
 	\subsection{Labeled unrooted trees}
-		\# on $n$ vertices: $n^{n-2}$ \\
-		\# on $k$ existing trees of size $n_i$: $n_1n_2\cdots n_k n^{k-2}$ \\
-		\# with degrees $d_i$: $(n-2)! / ((d_1-1)! \cdots (d_n-1)!)$
+		\begin{itemize}[noitemsep]
+		\item on $n$ vertices: $n^{n-2}$
+		\item on $k$ existing trees of size $n_i$: $n_1n_2\cdots n_k n^{k-2}$
+		\item with degrees $d_i$: $(n-2)! / ((d_1-1)! \cdots (d_n-1)!)$
+		\end{itemize}
+		\vspace{1em} 
 
 	\subsection{Catalan numbers}
 		\[ C_n=\frac{1}{n+1}\binom{2n}{n}= \binom{2n}{n}-\binom{2n}{n+1} = \frac{(2n)!}{(n+1)!n!} \]
