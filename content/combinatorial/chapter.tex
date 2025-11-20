@@ -1,5 +1,29 @@
 \chapter{Combinatorial}
 
+\section{Binomial Identities}
+\vspace{0.5em} 
+$$
+\begin{array}{cc}
+\binom{n-1}{k} - \binom{n-1}{k-1} = \frac{n - 2k}{k} \binom{n}{k} &
+\binom{n}{h}\binom{n-h}{k} = \binom{n}{k}\binom{n-k}{h}
+\\[10pt]
+\sum_{k=0}^{n} k \binom{n}{k} = n 2^{n-1} &
+\sum_{k = 0}^n k^2 \binom{n}{k} = (n + n^2)2^{n-2}
+\\[10pt]
+\sum_{j = 0}^k\binom{m}{j} \binom{n-m}{k-j} = \binom{n}{k} &
+\sum_{j = 0}^m \binom{m}{j}^2 = \binom{2m}{m}
+\\[10pt]
+\sum_{m = 0}^n \binom{m}{j} \binom{n-m}{k-j} = \binom{n+1}{k+1} &
+\sum_{m = 0}^n \binom{m}{k} = \binom{n+1}{k+1}
+\\[10pt]
+\sum_{r = 0}^m \binom{n+r}{r} = \binom{n+m+1}{m} &
+\sum_{k=0}^{n} \binom{n-k}{k} = \text{Fib}(n+1)
+\\[10pt]
+\sum_{k = 0}^n \binom{r}{k} \binom{s}{n - k} = \binom{r+s}{n}
+\end{array}
+$$
+
+
 \section{Permutations}
 	\subsection{Factorial}
 		\import{factorial.tex}
@@ -42,20 +66,6 @@
 		\kactlimport{multinomial.h}
 
 \section{General purpose numbers}
-	\subsection{Bernoulli numbers}
-		EGF of Bernoulli numbers is $B(t)=\frac{t}{e^t-1}$ (FFT-able).
-		$B[0,\ldots] = [1, -\frac{1}{2}, \frac{1}{6}, 0, -\frac{1}{30}, 0, \frac{1}{42}, \ldots]$
-
-		Sums of powers:
-		\small
-		\[ \sum_{i=1}^n n^m = \frac{1}{m+1} \sum_{k=0}^m \binom{m+1}{k} B_k \cdot (n+1)^{m+1-k} \]
-		\normalsize
-
-		Euler-Maclaurin formula for infinite sums:
-		\small
-		\[ \sum_{i=m}^{\infty} f(i) = \int_m^\infty f(x) dx - \sum_{k=1}^\infty \frac{B_k}{k!}f^{(k-1)}(m) \]
-		\[ \approx \int_{m}^\infty f(x)dx + \frac{f(m)}{2} - \frac{f'(m)}{12} + \frac{f'''(m)}{720} + O(f^{(5)}(m)) \]
-		\normalsize
 
 	\subsection{Stirling numbers of the first kind}
 		Number of permutations on $n$ items with $k$ cycles.
