@@ -41,10 +41,23 @@
 }
 
 \newcommand{\enablecolors}{
-	\lstset{basicstyle=\footnotesize\ttfamily\color{mygreen}}
-	\lstset{commentstyle=\color{darkgray}\normalfont\itshape}
-	\lstset{keywordstyle=\color{myblue}}
-	\lstset{identifierstyle=\color{black}}
+	\lstset{
+		basicstyle=\footnotesize\ttfamily\color{black},
+		commentstyle=\color{darkgray}\normalfont\itshape,
+		keywordstyle=\color{myblue}\bfseries,
+		identifierstyle=\color{black},
+		literate=
+			{0}{{{\color{red!20!violet}0}}}{1}
+			{1}{{{\color{red!20!violet}1}}}{1}
+			{2}{{{\color{red!20!violet}2}}}{1}
+			{3}{{{\color{red!20!violet}3}}}{1}
+			{4}{{{\color{red!20!violet}4}}}{1}
+			{5}{{{\color{red!20!violet}5}}}{1}
+			{6}{{{\color{red!20!violet}6}}}{1}
+			{7}{{{\color{red!20!violet}7}}}{1}
+			{8}{{{\color{red!20!violet}8}}}{1}
+			{9}{{{\color{red!20!violet}9}}}{1}
+	}
 }
 
 % Some default config
@@ -187,13 +200,17 @@
 	\scalebox{1.5}[1]{\color{black!80}{\}}}%
   \endgroup
 }
-
+\definecolor{codebrown}{HTML}{263238}
+\definecolor{codeblack}{HTML}{000000}
+\definecolor{codenumber}{HTML}{7A1E1E}
 \definecolor{mygreen}{HTML}{007000}
 \definecolor{myblue}{HTML}{0000dd}
+% \definecolor{myblue}{HTML}{0033AA}
 
 % Configure source code listings
 \lstset{language=C++}
 \lstset{morekeywords={alignas,alignof}}
+\lstset{morekeywords=[1]{rep}}
 \lstset{deletedirectives={line}}
 \lstset{frame=t}
 \lstset{tabsize=2}

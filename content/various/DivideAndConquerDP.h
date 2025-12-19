@@ -1,29 +1,48 @@
 /**
- * Author: Simon Lindholm
- * License: CC0
- * Source: Codeforces
- * Description: Given $a[i] = \min_{lo(i) \le k < hi(i)}(f(i, k))$ where the (minimal)
- * optimal $k$ increases with $i$, computes $a[i]$ for $i = L..R-1$.
- * Time: O((N + (hi-lo)) \log N)
- * Status: tested on http://codeforces.com/contest/321/problem/E
+ * Description: Divide and Conquer DP maintaining cost, can be used when $opt[i][j] \le opt[i][j+1]$.
+ * In this code everything is 1-based. Memory can be optmized by keeping only the last row
+ * Time: O(M N \log N)
  */
 #pragma once
 
-struct DP { // Modify at will:
-	int lo(int ind) { return 0; }
-	int hi(int ind) { return ind; }
-	ll f(int ind, int k) { return dp[ind][k]; }
-	void store(int ind, int k, ll v) { res[ind] = pii(k, v); }
+void add(int idx) {}
+void rem(int idx) {}
 
-	void rec(int L, int R, int LO, int HI) {
-		if (L >= R) return;
-		int mid = (L + R) >> 1;
-		pair<ll, int> best(LLONG_MAX, LO);
-		rep(k, max(LO,lo(mid)), min(HI,hi(mid)))
-			best = min(best, make_pair(f(mid, k), k));
-		store(mid, best.second, best.first);
-		rec(L, mid, LO, best.second+1);
-		rec(mid+1, R, best.second, HI);
-	}
-	void solve(int L, int R) { rec(L, R, INT_MIN, INT_MAX); }
-};
+void deC(int i, int l, int r, int optL, int optR) {
+    if (l > r) return;
+    int j = (l + r) / 2;
+    for (int k = r; k > j; k--) rem(k);
+    int opt = optL;
+    for (int k = optL; k <= min(optR, j); k++) {
+        // cost = cost[k, j]
+        int val = dp[i - 1][k - 1] + cost;
+        if (val < dp[i][j]) {
+            dp[i][j] = val;
+            opt = k;
+        }
+        rem(k);
+    }
+    for (int k = min(optR, j); k >= optL; k--) add(k);
+    rem(j);
+    deC(i, l, j - 1, optL, opt);
+
+    for (int k = j; k <= r; k++) add(k);
+    for (int k = optL; k < opt; k++) rem(k);
+    deC(i, j + 1, r, opt, optR);
+
+    for (int k = optL; k < opt; k++) add(k);
+}
+
+int solve(int N, int M) { // 1-based
+    for (int i = 0; i <= M; i++) {
+        for (int j = 0; j <= N; j++){
+            dp[i][j] = inf; // base case
+        }
+    }
+    cost = 0; // neutral value
+    for (int i = 1; i <= N; i++) add(i);
+    for (int i = 1; i <= M; i++) {
+        deC(i, 1, N, 1, N);
+    }
+    return dp[M][N];
+}

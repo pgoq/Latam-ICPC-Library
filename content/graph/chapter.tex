@@ -1,63 +1,138 @@
-% \chapter{Graph}
+\chapter{Graph}
 
-% \section{Fundamentals}
-% 	\kactlimport{BellmanFord.h}
-% 	\kactlimport{FloydWarshall.h}
-% 	\kactlimport{TopoSort.h}
+\section{Fundamentals}
+	\kactlimport{BellmanFord.h}
+	\kactlimport{FloydWarshall.h}
 
-% \section{Network flow}
-% 	\kactlimport{PushRelabel.h}
-% 	\kactlimport{MinCostMaxFlow.h}
-% 	\kactlimport{EdmondsKarp.h}
-% 	% \kactlimport{Dinic.h}
-% 	\kactlimport{MinCut.h}
-% 	\kactlimport{GlobalMinCut.h}
-% 	\kactlimport{GomoryHu.h}
+\section{Network flow and Matching}
+	\kactlimport{Dinic.h}
+    \kactlimport{MinCost.h}
+	\kactlimport{PushRelabel.h}
+	\kactlimport{Blossom.h}
+	\kactlimport{HopcroftKarp.h}
+	\kactlimport{WeightedMatching.h}
+    \subsection{Hall's Theorem}
+        In bipartite graphs, there exists a perfect matching covering the entire side $X$
+        if and only if for every subset $Y \subseteq X$,
+        \[
+        |Y| \le |N(Y)|,
+        \]
+        where $N(Y)$ denotes the set of neighbors of $Y$.
 
-% \section{Matching}
-% 	\kactlimport{hopcroftKarp.h}
-% 	\kactlimport{DFSMatching.h}
-% 	\kactlimport{MinimumVertexCover.h}
-% 	\kactlimport{WeightedMatching.h}
-% 	\kactlimport{GeneralMatching.h}
+    \subsection{K\H{o}nig's Theorem}
+        In a bipartite graph, the size of a Minimum Vertex Cover
+        is equal to the size of a Maximum Matching.
+        A Minimum Vertex Cover is a minimum set of vertices such that every edge
+        of the graph has at least one endpoint in the set.
 
-% \section{DFS algorithms}
-% 	\kactlimport{SCC.h}
-% 	\kactlimport{BiconnectedComponents.h}
-% 	\kactlimport{2sat.h}
-% 	\kactlimport{EulerWalk.h}
+        As a consequence,
+        \[
+        n - \text{Maximum Matching} = \text{Maximum Independent Set},
+        \]
+        where a Maximum Independent Set is the largest set of vertices
+        with no edges between them.
+
+        \paragraph{Recovering the Minimum Vertex Cover}
+        Given a maximum matching in a bipartite graph $(X, Y)$:
+        \begin{itemize}
+            \item Construct the residual graph by orienting:
+            \begin{itemize}
+                \item non-matching edges from $X$ to $Y$;
+                \item matching edges from $Y$ to $X$.
+            \end{itemize}
+            \item Perform a BFS or DFS starting from all free (unmatched) vertices in $X$.
+            \item Let $Z_X$ be the set of reachable vertices in $X$,
+                and $Z_Y$ the set of reachable vertices in $Y$.
+        \end{itemize}
+
+        The Minimum Vertex Cover is given by:
+        \[
+        (X \setminus Z_X) \cup Z_Y.
+        \]
+
+    \subsection{Node-Disjoint Path Cover}
+        A node-disjoint path cover is a set of paths such that each vertex
+        belongs to exactly one path.
+
+        In a directed acyclic graph (DAG),
+        \[
+        \text{Minimum Node-Disjoint Path Cover} = n - \text{Maximum Matching}.
+        \]
+
+        The construction is as follows:
+        for each vertex $u$, create a copy $u'$.
+        Add an edge $u \to v'$ if there exists an edge $u \to v$ in the original graph.
+
+        \paragraph{Recovering the Paths}
+        \begin{itemize}
+            \item Vertices that do not appear as destinations in the matching
+                are starting points of paths.
+            \item Each matching edge $u \to v'$ corresponds to an edge $u \to v$
+                in the original DAG.
+            \item Following these edges reconstructs all paths of the path cover.
+        \end{itemize}
+
+    \subsection{General Path Cover}
+        A general path cover is a path cover where a vertex may belong
+        to more than one path.
+
+        In a DAG, the construction is similar to the node-disjoint case,
+        but an edge $u \to v'$ exists if there is a path from $u$ to $v$
+        in the original graph.
+
+        \paragraph{Recovering the Cover}
+        The vertices can be grouped according to the edges used in the matching
+        to form the path cover.
+
+    \subsection{Dilworth's Theorem}
+        An antichain is a set of vertices such that there is no path
+        between any pair of vertices in the set.
+
+        In a directed acyclic graph,
+        \[
+        \text{Minimum General Path Cover} = \text{Maximum Antichain}.
+        \]
+
+        \paragraph{Recovering a Maximum Antichain}
+        Given a minimum general path cover, selecting one vertex from each path
+        produces a maximum antichain.
+
+
+\section{DFS algorithms}
+    \kactlimport{Bridges.h}
+    \kactlimport{EulerPath.h}
+	\kactlimport{SCC.h}
+	\kactlimport{Twosat.h}
+	
 
 % \section{Coloring}
 % 	\kactlimport{EdgeColoring.h}
 
-% \section{Heuristics}
-% 	\kactlimport{MaximalCliques.h}
-% 	\kactlimport{MaximumClique.h}
-% 	\kactlimport{MaximumIndependentSet.h}
+\section{Heuristics}
+	\kactlimport{MaxClique.h}
 
-% \section{Trees}
-% 	\kactlimport{BinaryLifting.h}
-% 	\kactlimport{LCA.h}
-% 	\kactlimport{CompressTree.h}
-% 	\kactlimport{HLD.h}
-% 	\kactlimport{LinkCutTree.h}
-% 	\kactlimport{DirectedMST.h}
+\section{Trees}
+	\kactlimport{Centroid.h}
+	\kactlimport{HLD.h}
+	\kactlimport{LCA.h}
+	\kactlimport{VirtualTree.h}
 
-% \section{Math}
-% 	\subsection{Number of Spanning Trees}
-% 		% I.e. matrix-tree theorem.
-% 		% Source: https://en.wikipedia.org/wiki/Kirchhoff%27s_theorem
-% 		% Test: stress-tests/graph/matrix-tree.cpp
-% 		Create an $N\times N$ matrix \texttt{mat}, and for each edge $a \rightarrow b \in G$, do
-% 		\texttt{mat[a][b]--, mat[b][b]++} (and \texttt{mat[b][a]--, mat[a][a]++} if $G$ is undirected).
-% 		Remove the $i$th row and column and take the determinant; this yields the number of directed spanning trees rooted at $i$
-% 		(if $G$ is undirected, remove any row/column).
 
-% 	\subsection{Erdős–Gallai theorem}
-% 		% Source: https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93Gallai_theorem
-% 		% Test: stress-tests/graph/erdos-gallai.cpp
-% 		A simple graph with node degrees $d_1 \ge \dots \ge d_n$ exists iff $d_1 + \dots + d_n$ is even and for every $k = 1\dots n$,
-% 		\[ \sum _{i=1}^{k}d_{i}\leq k(k-1)+\sum _{i=k+1}^{n}\min(d_{i},k). \]
+\section{Math}
+	\subsection{Number of Spanning Trees}
+		% I.e. matrix-tree theorem.
+		% Source: https://en.wikipedia.org/wiki/Kirchhoff%27s_theorem
+		% Test: stress-tests/graph/matrix-tree.cpp
+		Create an $N\times N$ matrix \texttt{mat}, and for each edge $a \rightarrow b \in G$, do
+		\texttt{mat[a][b]--, mat[b][b]++} (and \texttt{mat[b][a]--, mat[a][a]++} if $G$ is undirected).
+		Remove the $i$th row and column and take the determinant; this yields the number of directed spanning trees rooted at $i$
+		(if $G$ is undirected, remove any row/column).
 
-% \section{Planar Graphs}
-% If $G$ has $k$ connected components, then $n - m + f = k + 1$.
+	\subsection{Erdős–Gallai theorem}
+		% Source: https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93Gallai_theorem
+		% Test: stress-tests/graph/erdos-gallai.cpp
+		A simple graph with node degrees $d_1 \ge \dots \ge d_n$ exists iff $d_1 + \dots + d_n$ is even and for every $k = 1\dots n$,
+		\[ \sum _{i=1}^{k}d_{i}\leq k(k-1)+\sum _{i=k+1}^{n}\min(d_{i},k). \]
+
+\section{Planar Graphs}
+If $G$ has $k$ connected components, then $n - m + f = k + 1$.

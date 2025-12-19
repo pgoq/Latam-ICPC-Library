@@ -1,16 +1,9 @@
 /**
- * Author: Simon Lindholm
- * Date: 2015-02-24
- * License: CC0
- * Source: Wikipedia, tinyKACTL
  * Description: Push-relabel using the highest label selection rule and the gap heuristic. Quite fast in practice.
  *  To obtain the actual flow, look at positive values only.
  * Time: $O(V^2\sqrt E)$
- * Status: Tested on Kattis and SPOJ, and stress-tested
  */
 #pragma once
-
-
 struct PushRelabel {
 	struct Edge {
 		int dest, back;
@@ -19,8 +12,9 @@ struct PushRelabel {
 	vector<vector<Edge>> g;
 	vector<ll> ec;
 	vector<Edge*> cur;
-	vector<vi> hs; vi H;
-	PushRelabel(int n) : g(n), ec(n), cur(n), hs(2*n), H(n) {}
+	vector<vector<int>> hs;
+	vector<int> H;
+	PushRelabel(int n) : g(n), ec(n), cur(n), hs(2*n), H(n){}
 
 	void addEdge(int s, int t, ll cap, ll rcap=0) {
 		if (s == t) return;
@@ -36,8 +30,8 @@ struct PushRelabel {
 	}
 	ll calc(int s, int t) {
 		int v = sz(g); H[s] = v; ec[t] = 1;
-		vi co(2*v); co[0] = v-1;
-		rep(i,0,v) cur[i] = g[i].data();
+		vector<int> co(2*v); co[0] = v-1;
+		for(int i=0; i<v; i++) cur[i] = g[i].data();
 		for (Edge& e : g[s]) addFlow(e, e.c);
 
 		for (int hi = 0;;) {
@@ -46,16 +40,21 @@ struct PushRelabel {
 			while (ec[u] > 0)  // discharge u
 				if (cur[u] == g[u].data() + sz(g[u])) {
 					H[u] = 1e9;
-					for (Edge& e : g[u]) if (e.c && H[u] > H[e.dest]+1)
-						H[u] = H[e.dest]+1, cur[u] = &e;
-					if (++co[H[u]], !--co[hi] && hi < v)
-						rep(i,0,v) if (hi < H[i] && H[i] < v)
-							--co[H[i]], H[i] = v + 1;
+					for (Edge& e : g[u]){
+						if (e.c && H[u] > H[e.dest]+1)
+							H[u] = H[e.dest]+1, cur[u] = &e;
+					}
+					if (++co[H[u]], !--co[hi] && hi < v){
+						for(int i=0; i<v; i++){
+							if (hi < H[i] && H[i] < v)
+								--co[H[i]], H[i] = v + 1;
+						}
+					}
 					hi = H[u];
-				} else if (cur[u]->c && H[u] == H[cur[u]->dest]+1)
+				} else if (cur[u]->c && H[u] == H[cur[u]->dest]+1){
 					addFlow(*cur[u], min(ec[u], cur[u]->c));
-				else ++cur[u];
+				}else ++cur[u];
 		}
 	}
-	bool leftOfMinCut(int a) { return H[a] >= sz(g); }
+	bool inCut(int a) { return H[a] >= sz(g); }
 };

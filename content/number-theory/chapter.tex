@@ -1,22 +1,21 @@
 \chapter{Number theory}
 
 \section{Modular arithmetic}
-	\kactlimport{ModularArithmetic.h}
 	\kactlimport{ModInverse.h}
-	\kactlimport{ModPow.h}
-	\kactlimport{ModLog.h}
-	\kactlimport{ModSum.h}
 	\kactlimport{ModMulLL.h}
-	\kactlimport{ModSqrt.h}
+	\kactlimport{DiscreteLog.h}
+    \kactlimport{DiscreteRoot.h}
 
 \section{Primality}
-	\kactlimport{FastEratosthenes.h}
 	\kactlimport{MillerRabin.h}
 	\kactlimport{Factor.h}
+    \kactlimport{PrimitiveRoot.h}
 
 \section{Divisibility}
-	\kactlimport{euclid.h}
+	\kactlimport{Euclid.h}
 	\kactlimport{CRT.h}
+    \kactlimport{DivisionTrick.h}
+
 
 	\subsection{Bézout's identity}
 	For $a \neq $, $b \neq 0$, then $d=gcd(a,b)$ is the smallest positive integer for which there are integer solutions to
@@ -24,11 +23,7 @@
 	If $(x,y)$ is one solution, then all solutions are given by
 	$$\left(x+\frac{kb}{\gcd(a,b)}, y-\frac{ka}{\gcd(a,b)}\right), \quad k\in\mathbb{Z}$$
 
-	\kactlimport{phiFunction.h}
-
-\section{Fractions}
-	\kactlimport{ContinuedFractions.h}
-	\kactlimport{FracBinarySearch.h}
+	\kactlimport{Phi.h}
 
 \section{Primes}
 	$p=962592769$ is such that $2^{21} \mid p-1$, which may be useful. For hashing

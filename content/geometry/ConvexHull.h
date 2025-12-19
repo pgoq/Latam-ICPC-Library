@@ -7,6 +7,8 @@
 \\\begin{minipage}{75mm}
 Returns a vector of the points of the convex hull in counter-clockwise order.
 Points on the edge of the hull between two other points are not considered part of the hull.
+If you want to keep the collinear points in the convex hull, change the comparison to $h[t-2].cross(h[t-1], p) < 0$
+and the size of the vector $h$ to $2*sz(pts) + 1$.
 \end{minipage}
 \begin{minipage}{15mm}
 \vspace{-6mm}

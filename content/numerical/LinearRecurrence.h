@@ -15,8 +15,7 @@
 #pragma once
 
 const ll mod = 5; /** exclude-line */
-
-typedef vector<ll> Poly;
+using Poly = vector<ll>;
 ll linearRec(Poly S, Poly tr, ll k) {
 	int n = sz(tr);
 
@@ -25,7 +24,7 @@ ll linearRec(Poly S, Poly tr, ll k) {
 		rep(i,0,n+1) rep(j,0,n+1)
 			res[i + j] = (res[i + j] + a[i] * b[j]) % mod;
 		for (int i = 2 * n; i > n; --i) rep(j,0,n)
-			res[i - 1 - j] = (res[i - 1 - j] + res[i] * tr[j]) % mod;
+			res[i-1-j] = (res[i-1-j] + res[i] * tr[j]) % mod;
 		res.resize(n + 1);
 		return res;
 	};

@@ -1,23 +1,33 @@
-/**
- * Author: Simon Lindholm
- * Date: 2019-05-22
- * License: CC0
- * Description: Chinese Remainder Theorem.
- *
- * \texttt{crt(a, m, b, n)} computes $x$ such that $x\equiv a \pmod m$, $x\equiv b \pmod n$.
- * If $|a| < m$ and $|b| < n$, $x$ will obey $0 \le x < \text{lcm}(m, n)$.
- * Assumes $mn < 2^{62}$.
- * Time: $\log(n)$
- * Status: Works
- */
 #pragma once
 
-#include "euclid.h"
+ll modinverse(ll a, ll b, ll s0 = 1, ll s1 = 0) { 
+  return !b ? s0 : modinverse(b, a % b, s1, s0 - s1 * (a / b)); }
 
-ll crt(ll a, ll m, ll b, ll n) {
-	if (n > m) swap(a, b), swap(m, n);
-	ll x, y, g = euclid(m, n, x, y);
-	assert((a - b) % g == 0); // else no solution
-	x = (b - a) % n * x % n / g * m + a;
-	return x < 0 ? x + m*n/g : x;
+ll mul(ll a, ll b, ll m) {
+  ll q = (long double)a * (long double)b / (long double)m;
+  ll r = a * b - q * m;
+  return (r + m) % m;
 }
+
+struct Equation {
+  ll mod, ans;
+  bool valid;
+  Equation(ll a, ll m) { mod = m, ans = a, valid = true; }
+  Equation() { valid = false; }
+  Equation(Equation a, Equation b) {
+    if (!a.valid || !b.valid) {
+      valid = false;
+      return;
+    }
+    ll g = gcd(a.mod, b.mod);
+    if ((a.ans - b.ans) % g != 0) {
+      valid = false;
+      return;
+    }
+    valid = true;
+    mod = a.mod * (b.mod / g);
+    ll x = mul(a.mod, modinverse(a.mod, b.mod), mod);
+    ans = a.ans + mul(x, (b.ans - a.ans) / g, mod);
+    ans = (ans % mod + mod) % mod;
+  }
+};

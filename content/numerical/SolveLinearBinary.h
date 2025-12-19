@@ -1,46 +1,36 @@
 /**
- * Author: Simon Lindholm
- * Date: 2016-08-27
- * License: CC0
- * Source: own work
- * Description: Solves $Ax = b$ over $\mathbb F_2$. If there are multiple solutions, one is returned arbitrarily.
- *  Returns rank, or -1 if no solutions. Destroys $A$ and $b$.
- * Time: O(n^2 m)
- * Status: bruteforce-tested for n, m <= 4
+ * Time: O(\frac{\min(n,m)\, n m}{64})
  */
-#pragma once
 
-typedef bitset<1000> bs;
+pair<int, bitset<M>> gauss(vector<bitset<M>> eq) {
+    int n = eq.size(), m = M - 1;
+    vector<int> where(m, -1);
+    for(int col = 0, row = 0; col < m && row < n; col++){
+        for (int i = row; i < n; i++)
+            if (eq[i][col]) {
+                swap(eq[i], eq[row]);
+                break;
+            }
+        if (!eq[row][col]) continue;
+        where[col] = row;
 
-int solveLinear(vector<bs>& A, vi& b, bs& x, int m) {
-	int n = sz(A), rank = 0, br;
-	assert(m <= sz(x));
-	vi col(m); iota(all(col), 0);
-	rep(i,0,n) {
-		for (br=i; br<n; ++br) if (A[br].any()) break;
-		if (br == n) {
-			rep(j,i,n) if(b[j]) return -1;
-			break;
-		}
-		int bc = (int)A[br]._Find_next(i-1);
-		swap(A[i], A[br]);
-		swap(b[i], b[br]);
-		swap(col[i], col[bc]);
-		rep(j,0,n) if (A[j][i] != A[j][bc]) {
-			A[j].flip(i); A[j].flip(bc);
-		}
-		rep(j,i+1,n) if (A[j][i]) {
-			b[j] ^= b[i];
-			A[j] ^= A[i];
-		}
-		rank++;
-	}
+        for (int i = 0; i < n; i++) {
+            if (i != row && eq[i][col]) eq[i] ^= eq[row];
+        }
+        ++row;
+    }
 
-	x = bs();
-	for (int i = rank; i--;) {
-		if (!b[i]) continue;
-		x[col[i]] = 1;
-		rep(j,0,i) b[j] ^= A[j][i];
-	}
-	return rank; // (multiple solutions if rank < m)
+    bitset<M> ans;
+    for (int i = 0; i < m; i++) {
+        if (where[i] != -1) ans[i] = eq[where[i]][m];
+    }
+    for (int i = 0; i < n; i++) {
+        int sum = (ans & eq[i]).count();
+        sum %= 2;
+        if (sum != eq[i][m]) return pair(0, bitset<M>());
+    }
+    for (int i = 0; i < m; i++) {
+        if (where[i] == -1) return pair(INF, ans);
+    }
+    return pair(1, ans);
 }

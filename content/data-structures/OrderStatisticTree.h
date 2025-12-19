@@ -1,8 +1,4 @@
 /**
- * Author: Simon Lindholm
- * Date: 2016-03-22
- * License: CC0
- * Source: hacKIT, NWERC 2015
  * Description: A set (not multiset!) with support for finding the n'th
  * element, and finding the index of an element.
  * To get a map, change \texttt{null\_type}.
@@ -24,5 +20,5 @@ void example() {
 	assert(t.order_of_key(10) == 1);
 	assert(t.order_of_key(11) == 2);
 	assert(*t.find_by_order(0) == 8);
-	t.join(t2); // assuming T < T2 or T > T2, merge t2 into t
+	t.join(t2); // merge t2 into t
 }

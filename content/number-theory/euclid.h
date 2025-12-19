@@ -1,15 +1,12 @@
 /**
- * Author: Unknown
- * Date: 2002-09-15
- * Source: predates tinyKACTL
- * Description: Finds two integers $x$ and $y$, such that $ax+by=\gcd(a,b)$. If
- * you just need gcd, use the built in \texttt{\_\_gcd} instead.
- * If $a$ and $b$ are coprime, then $x$ is the inverse of $a \pmod{b}$.
+ * Description: Find $x,y$ such that $Ax+By=\gcd(A,B)$.
+ * If $\gcd(A,B)=1$, then $x=A^{-1}\!\!\pmod B$ and $y=B^{-1}\!\!\pmod A$.
+ * Time: O(\log)
  */
-#pragma once
 
-ll euclid(ll a, ll b, ll &x, ll &y) {
-	if (!b) return x = 1, y = 0, a;
-	ll d = euclid(b, a % b, y, x);
-	return y -= a/b * x, d;
+
+tuple<ll, ll, ll> ext_gcd(ll a, ll b) {
+    if (!a) return { b, 0, 1 };
+    auto [g, x, y] = ext_gcd(b % a, a);
+    return { g, y - b / a * x, x };
 }

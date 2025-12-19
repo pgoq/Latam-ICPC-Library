@@ -13,9 +13,6 @@
  * Status: bruteforce-tested mod 5 for n <= 5 and all s
  */
 #pragma once
-
-#include "../number-theory/ModPow.h"
-
 vector<ll> berlekampMassey(vector<ll> s) {
 	int n = sz(s), L = 0, m = 0;
 	vector<ll> C(n), B(n), T;
