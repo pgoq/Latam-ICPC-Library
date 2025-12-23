@@ -14,7 +14,7 @@ struct Bit {
     for (i++; i > 0; i -= i & -i) ret += bit[i];
     return ret;
   }
-  int lower_bound(ll v){ // min pos st sum of [0, pos] >= sum
+  int lower_bound(ll v){ // min pos st sum[0, pos] >= v
     int pos = 0;
     for(int j=(1 << 23); j >= 1; j/=2){
       if(pos+j < sz(bit) && bit[pos + j] < v){
