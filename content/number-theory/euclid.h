@@ -3,10 +3,10 @@
  * If $\gcd(A,B)=1$, then $x=A^{-1}\!\!\pmod B$ and $y=B^{-1}\!\!\pmod A$.
  * Time: O(\log)
  */
+#pragma once
 
-
-tuple<ll, ll, ll> ext_gcd(ll a, ll b) {
-    if (!a) return { b, 0, 1 };
-    auto [g, x, y] = ext_gcd(b % a, a);
-    return { g, y - b / a * x, x };
+ll euclid(ll a, ll b, ll &x, ll &y) {
+	if (!b) return x = 1, y = 0, a;
+	ll d = euclid(b, a % b, y, x);
+	return y -= a/b * x, d;
 }

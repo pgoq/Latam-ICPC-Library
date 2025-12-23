@@ -4,9 +4,7 @@ ll modinverse(ll a, ll b, ll s0 = 1, ll s1 = 0) {
   return !b ? s0 : modinverse(b, a % b, s1, s0 - s1 * (a / b)); }
 
 ll mul(ll a, ll b, ll m) {
-  ll q = (long double)a * (long double)b / (long double)m;
-  ll r = a * b - q * m;
-  return (r + m) % m;
+  return (((__int128_t)a*b)%m + m)%m;
 }
 
 struct Equation {
@@ -15,15 +13,10 @@ struct Equation {
   Equation(ll a, ll m) { mod = m, ans = a, valid = true; }
   Equation() { valid = false; }
   Equation(Equation a, Equation b) {
-    if (!a.valid || !b.valid) {
-      valid = false;
-      return;
-    }
+    valid = false;
+    if (!a.valid || !b.valid) return;
     ll g = gcd(a.mod, b.mod);
-    if ((a.ans - b.ans) % g != 0) {
-      valid = false;
-      return;
-    }
+    if ((a.ans - b.ans) % g != 0) return;
     valid = true;
     mod = a.mod * (b.mod / g);
     ll x = mul(a.mod, modinverse(a.mod, b.mod), mod);
