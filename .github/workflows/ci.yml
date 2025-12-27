@@ -11,12 +11,22 @@ jobs:
 
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: write 
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
     - name: Install pdflatex
       run: sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra
     - name: Tome
       run: sudo apt-get install -y build-essential
     - name: Build pdf
       run: make las4s
+    - name: Commit and push changes
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "update pdf"
+        git push
+         
