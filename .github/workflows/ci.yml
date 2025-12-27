@@ -19,4 +19,4 @@ jobs:
     - name: Tome
       run: sudo apt-get install -y build-essential
     - name: Build pdf
-      run: make veryclean && make las4s
+      run: make las4s
