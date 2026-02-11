@@ -17,7 +17,9 @@ jobs:
     steps:
     - uses: actions/checkout@v5
     - name: Install pdflatex
-      run: sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra
+      run: |
+        sudo apt-get update
+        sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra
     - name: Tome
       run: sudo apt-get install -y build-essential
     - name: Build pdf
