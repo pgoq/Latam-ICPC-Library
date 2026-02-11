@@ -33,7 +33,7 @@ vector<int> Blossom(vector<vector<int>>& g) {
         iota(all(orig), 0);
         q.clear();
         label[root] = 0; q.push_back(root);
-        for (int i = 0; i < sz(q); i++) {
+        rep(i, 0, sz(q)) {
             int v = q[i];
             for (auto x : g[v]) {
                 if (label[x] == -1) {
@@ -52,7 +52,7 @@ vector<int> Blossom(vector<vector<int>>& g) {
         return 0;
     };
     // Time halves if you start with (any) maximal matching.
-    for (int i = 0; i < n; i++) {
+    rep(i, 0, n) {
         if (mate[i] == -1) bfs(i);
     }
     return mate;

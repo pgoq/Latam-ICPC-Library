@@ -17,7 +17,7 @@ struct Dinic {
 		int to, rev;
 		ll cap, flow;
 		bool res;
-		edge(int to_, int cap_, int rev_, bool res_)
+		edge(int to_, ll cap_, int rev_, bool res_)
 			: to(to_), cap(cap_), rev(rev_), flow(0), res(res_){}
 	};
 
@@ -27,15 +27,15 @@ struct Dinic {
 	Dinic(int n) : g(n), lev(n), beg(n), F(0) {}
 
 	void add(int a, int b, ll c, ll other = 0) {
-		g[a].emplace_back(b, c, g[b].size(), false);
-		g[b].emplace_back(a, other, g[a].size()-1, true);
+		g[a].emplace_back(b, c, sz(g[b]), false);
+		g[b].emplace_back(a, other, sz(g[a])-1, true);
 	}
 	bool bfs(int s, int t) {
 		fill(all(lev), -1);
 		fill(all(beg), 0);
         lev[s] = 0;
 		queue<int> q; q.push(s);
-		while (q.size()) {
+		while (sz(q)) {
 			int u = q.front(); q.pop();
 			for (auto& i : g[u]) {
 				if (lev[i.to] != -1 or (i.flow == i.cap)) continue;
@@ -48,7 +48,7 @@ struct Dinic {
 	}
 	ll dfs(int v, int s, ll f = INF) {
 		if (!f or v == s) return f;
-		for (int& i = beg[v]; i < g[v].size(); i++) {
+		for (int& i = beg[v]; i < sz(g[v]); i++) {
 			auto& e = g[v][i];
 			if (lev[e.to] != lev[v] + 1) continue;
 			ll foi = dfs(e.to, s, min(f, e.cap - e.flow));

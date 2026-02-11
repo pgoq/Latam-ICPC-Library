@@ -15,7 +15,7 @@ void bell(vector<Node>& nodes, vector<Ed>& eds, int s) {
 	sort(all(eds), [](Ed a, Ed b) { return a.s() < b.s(); });
 
 	int lim = sz(nodes) / 2 + 2; // /3+100 with shuffled vertices
-	for(int i=0; i<lim; i++) for (Ed ed : eds) {
+	rep(i,0,lim) for (Ed ed : eds) {
 		Node cur = nodes[ed.a], &dest = nodes[ed.b];
 		if (abs(cur.dist) == inf) continue;
 		ll d = cur.dist + ed.w;
@@ -24,7 +24,7 @@ void bell(vector<Node>& nodes, vector<Ed>& eds, int s) {
 			dest.dist = (i < lim-1 ? d : -inf);
 		}
 	}
-	for(int i=0; i<lim; i++) for (Ed e : eds) {
+	rep(i,0,lim) for (Ed e : eds) {
 		if (nodes[e.a].dist == -inf)
 			nodes[e.b].dist = -inf;
 	}

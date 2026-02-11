@@ -6,3 +6,4 @@ using namespace std;
 #define sz(x) (int)(x).size()
 using ll = long long;
 using pii = pair<int,int>;
+using vi = vector<int>;
